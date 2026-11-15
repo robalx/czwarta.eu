@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protokoły monitoringu — ONVIF, RTSP, HLS, WebRTC, SIP</title>
+<meta name="description" content="Anatomia protokołów kamer IP: ONVIF, RTSP/RTP, RTMP/HLS/WebRTC, SIP — URL-e, latencja, kiedy którego użyć.">
+<meta name="theme-color" content="#5e6ad2">
+<meta property="og:title" content="Protokoły monitoringu — ONVIF, RTSP, HLS, WebRTC, SIP">
+<meta property="og:description" content="Anatomia protokołów kamer IP: ONVIF, RTSP/RTP, RTMP/HLS/WebRTC, SIP — URL-e, latencja, kiedy którego użyć.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<link rel="stylesheet" href="./assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%235e6ad2'/%3E%3Cpath d='M14.5 7h-4L8 9H6a1.5 1.5 0 0 0-1.5 1.5v5A1.5 1.5 0 0 0 6 17h12a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 18 9h-2l-1.5-2Z' fill='none' stroke='white' stroke-width='1.5'/%3E%3Ccircle cx='12' cy='13' r='2.5' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Przejdź do treści</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" data-menu-open aria-label="Otwórz menu" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  <a class="brand" href="./index.html" aria-label="czwarta.eu — strona główna">
+    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+    <span class="brand-domain">czwarta.eu</span>
+    <span class="brand-sub">/ monitoring wizyjny</span>
+  </a>
+  <span class="spacer"></span>
+  <div class="search" data-search>
+    <div class="search-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" class="search-input" placeholder="Szukaj protokołów, narzędzi…" aria-label="Szukaj" autocomplete="off" spellcheck="false">
+      <kbd class="search-kbd">/</kbd>
+    </div>
+    <div class="search-results" role="listbox" aria-label="Wyniki wyszukiwania"></div>
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" data-theme-toggle aria-label="Przełącz motyw" title="Przełącz motyw (t)">
+      <span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></span><span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    </button>
+    <a class="icon-btn" href="https://github.com" target="_blank" rel="noopener" aria-label="Kod źródłowy na GitHub" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A12 12 0 0 0 .5 12.5a12 12 0 0 0 8.2 11.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 23.5 12.5 12 12 0 0 0 12 .5Z"/></svg></a>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <nav class="nav-section">
+    <div class="nav-label">Dokumentacja</div>
+    <a class="nav-link" href="./index.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></span><span>Strona główna</span></a>
+    <a class="nav-link" href="./protocols.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><span>Protokoły i standardy</span></a>
+    <a class="nav-link" href="./oss.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span>Open-source NVR/VMS</span></a>
+    <a class="nav-link" href="./architecture.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6"/></svg></span><span>Architektura DIY</span></a>
+    <a class="nav-link" href="./libraries.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span>Biblioteki i narzędzia</span></a>
+    <a class="nav-link" href="./integration.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v3a6 6 0 0 1-12 0V8Z"/></svg></span><span>Integracje i ekosystem</span></a>
+    <a class="nav-link" href="./resources.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span><span>Zasoby i dokumentacja</span></a>
+  </nav>
+  <div class="sidebar-foot">
+    Projekt edukacyjny · niekomercyjny<br>
+    <a href="./resources.html">Zasoby →</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" data-menu-close aria-hidden="true"></div>
+  <div class="main" id="main">
+    <div class="main-inner">
+      <div class="content">
+        <div class="page-head">
+          <div class="page-eyebrow">Protokoły</div>
+          <h1 class="page-title">Podstawowe protokoły i standardy</h1>
+          <p class="page-lead">Cztery warstwy komunikacji z kamerą IP — od sterowania (ONVIF), przez transport (RTSP), po odtwarzanie w przeglądarce (HLS/WebRTC) i sesje audio (SIP).</p>
+          <div class="page-meta"><span><span class="dot"></span> 4 protokoły</span><span><span>+ rekomendator</span></span></div>
+        </div>
+<p>Kamera IP to nie czarna skrzynka — mówi kilkoma standardami. Wiedza o tym, który protokół za co odpowiada, rozwiązuje 90% problemów „nie widzę obrazu". Poniżej cztery warstwy, które spotkasz w niemal każdym urządzeniu.</p>
+
+<div class="card-grid">
+  <div class="card hover"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> ONVIF</h3><p>Warstwa sterowania: discover, konfiguracja, PTZ, zdarzenia.</p></div>
+  <div class="card hover"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg> RTSP / RTP</h3><p>Warstwa transportu: strumień audio/wideo w czasie rzeczywistym.</p></div>
+  <div class="card hover"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg> RTMP/HLS/WebRTC</h3><p>Warstwa odtwarzania: przeglądarka i nowoczesne klienty.</p></div>
+  <div class="card hover"><h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0 2 0 2 0"/></svg> SIP</h3><p>Warstwa sesji: dwukierunkowe audio, domofony.</p></div>
+</div>
+
+<h2 id="onvif">ONVIF <a class="anchor" href="#onvif">#</a></h2>
+<p><strong>ONVIF</strong> (Open Network Video Interface Forum) to otwarty standard komunikacji z kamerami IP, niezależny od producenta. Dzięki niemu można w jednolity sposób odkrywać urządzenia w sieci, konfigurować strumienie, sterować mechaniką PTZ oraz odbierać zdarzenia (rover ruchu, wejście/wyjście, alarmy). Standard jest zorganizowany w <em>profilach</em>, które określają konkretne możliwości urządzenia — warto sprawdzić, który profil deklaruje Twoja kamera, zanim zaczniesz pisać kod.</p>
+<ul>
+  <li><strong>Profile S/G/T</strong> — streaming IP, PTZ i zdarzenia (najczęstsze w kamerach konsumenckich/pro).</li>
+  <li><strong>Profile C/A</strong> — access control i analiza obrazu (edge analytics).</li>
+  <li><strong>Profile Q</strong> — discovery zaawansowane, QoS, TLS.</li>
+</ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">python</span></div><pre><code><span class="tok-k">from</span> onvif <span class="tok-k">import</span> ONVIFCamera
+
+cam = ONVIFCamera(<span class="tok-s">"192.168.1.10"</span>, <span class="tok-n">80</span>, <span class="tok-s">"user"</span>, <span class="tok-s">"pass"</span>)
+media = cam.create_media_service()
+streams = media.GetProfiles()
+
+token = streams[<span class="tok-n">0</span>].token
+uri = media.GetStreamUri({<span class="tok-s">"StreamSetup"</span>: {<span class="tok-s">"Stream"</span>: <span class="tok-s">"RTP-Unicast"</span>, <span class="tok-s">"Transport"</span>: {<span class="tok-s">"Protocol"</span>: <span class="tok-s">"RTSP"</span>}}, <span class="tok-s">"ProfileToken"</span>: token})
+<span class="tok-c"># -> uri.Uri  ==  rtsp://.../Streaming/Channels/101</span></code></pre></div>
+<div class="callout callout-note"><span class="callout-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></span><div class="callout-body"><div class="callout-title">Discovery bez ONVIF</div><p>Samo odkrywanie urządzeń odbywa się po SOAP/multicast (port <code>3702</code>, grupa <code>239.255.255.250</code>). W zamkniętej sieci lepiej od razu wylistować <code>nmap -p 554,3702,80,443</code> i zgadywać URL.</p></div></div>
+
+<h2 id="rtsp">RTSP / RTP <a class="anchor" href="#rtsp">#</a></h2>
+<p><strong>RTSP</strong> (Real-Time Streaming Protocol) to protokół sterowania strumieniem — „odtwarzacz" negocjuje z kamerą sesję, a właściwe pakiety audio/wideo płyną protokołem <strong>RTP</strong>, zazwyczaj przez UDP lub multiplexowane po TCP (<code>rtsp_transport tcp</code>). Większość kamer IP udostępnia strumień pod klasycznym adresem <code>rtsp://ip:554/...</code>, gdzie końcówka ścieżki zależy od producenta.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">bash</span></div><pre><code><span class="tok-c"># anatomia URL RTSP</span>
+rtsp://user:pass@192.168.1.10:554/Streaming/Channels/101
+         ↑      ↑              ↑   ↑
+   autoryzacja    host          port  ścieżka (zależna od producenta)
+
+<span class="tok-c"># popularne ścieżki</span>
+Hikvision  /Streaming/Channels/101
+Dahua      /cam/realmonitor?channel=1&subtype=0
+Reolink    /h264Preview_01_main
+Generic    /stream1  /h264/channel1</code></pre></div>
+<div class="callout callout-warn"><span class="callout-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.6 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span><div class="callout-body"><div class="callout-title">UDP vs TCP</div><p>RTSP po UDP ma niższe opóźnienie, ale gubi pakiety w gorszych sieciach i bywa blokowane przez NAT. W praktyce <code>-rtsp_transport tcp</code> jest bezpiecznym domyślnym wyborem do nagrywania i analizy.</p></div></div>
+
+<h2 id="browser">RTMP / HLS / WebRTC — odtwarzanie w przeglądarce <a class="anchor" href="#browser">#</a></h2>
+<p>RTSP nie jest natywnie obsługiwany w przeglądarce. Aby pokazać obraz w webowym podglądzie, transkoduje się strumień do formatu przeglądarkowego: najczęściej <strong>HLS</strong>, dla niskich opóźnień <strong>WebRTC</strong>, a do re-streamingu do CDN-ów <strong>RTMP</strong>. HLS jest dziś standardem w nowoczesnych systemach webowych, bo działa w <code>&lt;video&gt;</code> z minimalną ilością JavaScriptu (hls.js).</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Protokół</th><th>Latencja</th><th>Przeglądarka</th><th>Typowy use-case</th></tr></thead>
+<tbody>
+<tr><td><strong>RTMP</strong></td><td>~2–5 s</td><td class="t-no">nie (flash era)</td><td>ingest do serwerów streamingowych / CDN</td></tr>
+<tr><td><strong>HLS</strong></td><td>~2–10 s</td><td class="t-yes">natywnie + hls.js</td><td>podgląd webowy, dashboardy, nagrania</td></tr>
+<tr><td><strong>LL-HLS</strong></td><td>~1–2 s</td><td class="t-mid">hls.js</td><td>kompromis latency/compat</td></tr>
+<tr><td><strong>WebRTC</strong></td><td class="t-yes">&lt;500 ms</td><td class="t-yes">natywnie</td><td>dwukierunkowe, live, interkom</td></tr>
+</tbody></table></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">bash</span></div><pre><code><span class="tok-c"># RTSP -> HLS (podgląd w <video> przez hls.js)</span>
+ffmpeg -rtsp_transport tcp -i rtsp://user:pass@192.168.1.10:554/stream1 \
+  -c:v copy -c:a aac -f hls -hls_time 4 \
+  -hls_list_size 4 -hls_flags delete_segments stream.m3u8</code></pre></div>
+
+<h2 id="sip">SIP — dwukierunkowe audio <a class="anchor" href="#sip">#</a></h2>
+<p><strong>SIP</strong> (Session Initiation Protocol) to protokół sygnalizacyjny zapożyczony ze świata VoIP. W monitoringu pojawia się w domofonach IP i bramkach z dwukierunkowym dźwiękiem — zestawia sesję między urządzeniem a klientem (softphone, centrala, webowy interkom przez SIP↔WebRTC gateway). Pozwala na dwukierunkowe połączenie audio/wideo między urządzeniami i jest standardem otwartym, więc nie blokuje Cię u jednego producenta.</p>
+
+<h2 id="recommender">Rekomendator protokołów <a class="anchor" href="#recommender">#</a></h2>
+<p>Nie jesteś pewien, którego protokołu użyć? Wybierz scenariusz, a poniżej pojawi się rekomendacja i dlaczego.</p>
+<div class="widget" data-recommender>
+  <div class="widget-head"><span class="widget-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></span> Rekomendator protokołów <span class="widget-tag">interaktywne</span></div>
+  <div class="widget-body">
+    <div class="btn-row">
+      <button class="chip" data-reco="browser">Odtwarzaj w przeglądarce</button>
+      <button class="chip" data-reco="latency">Niskie opóźnienie &lt;500 ms</button>
+      <button class="chip" data-reco="record">Nagrywanie 24/7</button>
+      <button class="chip" data-reco="audio">Dwukierunkowe audio</button>
+      <button class="chip" data-reco="snapshot">Tylko zrzut klatki</button>
+      <button class="chip" data-reco="discovery">Odkrywanie kamer</button>
+    </div>
+    <div class="reco-result" data-reco-result></div>
+  </div>
+</div>
+
+      </div>
+<aside class="toc" data-toc aria-label="Spis treści">
+  <div class="toc-label">Na tej stronie</div>
+  <ul>
+      <li><a href="#onvif">ONVIF</a></li>
+      <li><a href="#rtsp">RTSP / RTP</a></li>
+      <li><a href="#browser">Przeglądarka</a></li>
+      <li><a href="#sip">SIP</a></li>
+      <li><a href="#recommender">Rekomendator</a></li>
+  </ul>
+</aside>
+
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">czwarta.eu</div>
+      <p class="footer-note">Niekomercyjny zbiór informacji o monitoringu wizyjnym od strony deweloperskiej. Treść ma charakter edukacyjny i nie stanowi oferty w rozumieniu przepisów kodeksu cywilnego.</p>
+    </div>
+    <div class="footer-links">
+      <a href="./index.html">Strona główna</a>
+      <a href="./protocols.html">Protokoły</a>
+      <a href="./oss.html">Open-source NVR</a>
+      <a href="./architecture.html">Architektura</a>
+      <a href="./libraries.html">Biblioteki</a>
+      <a href="./integration.html">Integracje</a>
+      <a href="./resources.html">Zasoby</a>
+    </div>
+    <div class="footer-copy">Utworzono 11.11.2026 · hosting: GitHub Pages · <span data-year>2026</span></div>
+  </div>
+</footer>
+<script src="./assets/app.js"></script>
+</body>
+</html>
