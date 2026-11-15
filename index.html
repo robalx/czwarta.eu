@@ -1,340 +1,158 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring wizyjny — od strony deweloperskiej</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.7;
-            color: #333;
-            background: #f5f7fa;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-        header {
-            background: #0d1117;
-            color: #c9d1d9;
-            padding: 3.5rem 0 2.5rem;
-            text-align: center;
-            border-bottom: 1px solid #30363d;
-        }
-        header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #f0f6fc;
-            margin-bottom: 0.6rem;
-            letter-spacing: -0.3px;
-        }
-        header p {
-            font-size: 1.05rem;
-            color: #8b949e;
-            max-width: 620px;
-            margin: 0 auto;
-        }
-        .badge {
-            display: inline-block;
-            background: #238636;
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.7rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        section {
-            padding: 2.5rem 0;
-        }
-        section:nth-child(even) {
-            background: #fff;
-            border-top: 1px solid #e1e4e8;
-            border-bottom: 1px solid #e1e4e8;
-        }
-        h2 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: #0d1117;
-            border-left: 3px solid #58a6ff;
-            padding-left: 0.7rem;
-        }
-        p {
-            margin-bottom: 1rem;
-            color: #444;
-																text-align: justify;
-        }
-        .lead {
-            font-size: 1.05rem;
-            color: #555;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.2rem;
-        }
-        .card {
-            background: #f6f8fa;
-            border: 1px solid #d0d7de;
-            border-radius: 6px;
-            padding: 1.3rem;
-        }
-        .card h3 {
-            font-size: 1.05rem;
-            color: #0d1117;
-            margin-bottom: 0.4rem;
-        }
-        .card p, .card li {
-            font-size: 0.92rem;
-            color: #555;
-        }
-        .card ul {
-            margin-left: 1.2rem;
-            margin-top: 0.3rem;
-        }
-        .card li {
-            margin-bottom: 0.25rem;
-        }
-        code {
-            background: #eaeef2;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.88em;
-            color: #24292f;
-        }
-        .code-block {
-            background: #161b22;
-            color: #c9d1d9;
-            padding: 1rem 1.2rem;
-            border-radius: 6px;
-            overflow-x: auto;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin: 1rem 0;
-            border: 1px solid #30363d;
-        }
-        .code-block .comment { color: #8b949e; }
-        .code-block .keyword { color: #ff7b72; }
-        .code-block .string { color: #a5d6ff; }
-        .note {
-            background: #ddf4ff;
-            border-left: 3px solid #58a6ff;
-            padding: 0.8rem 1rem;
-            border-radius: 0 6px 6px 0;
-            margin: 1rem 0;
-            font-size: 0.95rem;
-            color: #24292f;
-        }
-        footer {
-            background: #0d1117;
-            color: #6e7681;
-            text-align: center;
-            padding: 2rem 0;
-            font-size: 0.85rem;
-            border-top: 1px solid #30363d;
-        }
-        a { color: #0969da; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.6rem; }
-            h2 { font-size: 1.2rem; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitoring wizyjny — od strony deweloperskiej</title>
+<meta name="description" content="Protokoły, open-source NVR, architektura i integracje systemów monitoringu video — zbiór techniczny dla programistów i integratorów.">
+<meta name="theme-color" content="#5e6ad2">
+<meta property="og:title" content="Monitoring wizyjny — od strony deweloperskiej">
+<meta property="og:description" content="Protokoły, open-source NVR, architektura i integracje systemów monitoringu video — zbiór techniczny dla programistów i integratorów.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<link rel="stylesheet" href="./assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%235e6ad2'/%3E%3Cpath d='M14.5 7h-4L8 9H6a1.5 1.5 0 0 0-1.5 1.5v5A1.5 1.5 0 0 0 6 17h12a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 18 9h-2l-1.5-2Z' fill='none' stroke='white' stroke-width='1.5'/%3E%3Ccircle cx='12' cy='13' r='2.5' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E">
 </head>
 <body>
-
-<header>
-    <div class="container">
-        <div class="badge">Projekt edukacyjny</div>
-        <h1>Monitoring wizyjny</h1>
-        <p>Od strony deweloperskiej: protokoły, oprogramowanie open-source, integracje i architektura systemów video.</p><p>CREATED: 11.11.2026</p>
+<a class="skip" href="#main">Przejdź do treści</a>
+<header class="topbar">
+  <button class="icon-btn menu-btn" data-menu-open aria-label="Otwórz menu" aria-expanded="false" aria-controls="sidebar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  <a class="brand" href="./index.html" aria-label="czwarta.eu — strona główna">
+    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+    <span class="brand-domain">czwarta.eu</span>
+    <span class="brand-sub">/ monitoring wizyjny</span>
+  </a>
+  <span class="spacer"></span>
+  <div class="search" data-search>
+    <div class="search-field">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" class="search-input" placeholder="Szukaj protokołów, narzędzi…" aria-label="Szukaj" autocomplete="off" spellcheck="false">
+      <kbd class="search-kbd">/</kbd>
     </div>
+    <div class="search-results" role="listbox" aria-label="Wyniki wyszukiwania"></div>
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" data-theme-toggle aria-label="Przełącz motyw" title="Przełącz motyw (t)">
+      <span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg></span><span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span>
+    </button>
+    <a class="icon-btn" href="https://github.com" target="_blank" rel="noopener" aria-label="Kod źródłowy na GitHub" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A12 12 0 0 0 .5 12.5a12 12 0 0 0 8.2 11.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 23.5 12.5 12 12 0 0 0 12 .5Z"/></svg></a>
+  </div>
 </header>
-
-<section>
-    <div class="container">
-        <h2>Dla kogo ta strona?</h2>
-        <p class="lead">
-            Ten landing page to zbiór informacji technicznych o systemach monitoringu wizyjnego skierowany do programistów, integratorów, administratorów i hobbystów. Nie jest to oferta handlowa ani reklama usług, ale przegląd narzędzi, protokołów i podejść do budowania rozwiązań video DIY oraz enterprise-grade.
-        </p>
-        <p class="lead">
-            Jeśli chcesz samodzielnie postawić rejestrator NVR na Raspberry Pi, zrozumieć jak działa ONVIF, czy zbudować pipeline analizy obrazu w Pythonie — znajdziesz tu punkt zaczepienia.
-        </p>
-    </div>
-</section>
-
-<section>
-    <div class="container">
-        <h2>Podstawowe protokoły i standardy</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>ONVIF</h3>
-                <p>Otwarty standard komunikacji z kamerami IP. Pozwala na jednolity sposób odkrywania urządzeń, konfiguracji strumieni, PTZ i zdarzeń.</p>
-            </div>
-            <div class="card">
-                <h3>RTSP / RTP</h3>
-                <p>Protokół strumieniowania wideo w czasie rzeczywistym. Większość kamer IP udostępnia strumień pod adresem <code>rtsp://ip:554/...</code></p>
-            </div>
-            <div class="card">
-                <h3>RTMP / HLS / WebRTC</h3>
-                <p>Protokoły do odtwarzania w przeglądarce. HLS jest najczęściej stosowany w nowoczesnych systemach webowych.</p>
-            </div>
-            <div class="card">
-                <h3>SIP</h3>
-                <p>Używany w domofonach i systemach z dwukierunkowym audio. Pozwala na zestawianie sesji między urządzeniami.</p>
-            </div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <nav class="nav-section">
+    <div class="nav-label">Dokumentacja</div>
+    <a class="nav-link" href="./index.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></span><span>Strona główna</span></a>
+    <a class="nav-link" href="./protocols.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><span>Protokoły i standardy</span></a>
+    <a class="nav-link" href="./oss.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span>Open-source NVR/VMS</span></a>
+    <a class="nav-link" href="./architecture.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6"/></svg></span><span>Architektura DIY</span></a>
+    <a class="nav-link" href="./libraries.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><span>Biblioteki i narzędzia</span></a>
+    <a class="nav-link" href="./integration.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v3a6 6 0 0 1-12 0V8Z"/></svg></span><span>Integracje i ekosystem</span></a>
+    <a class="nav-link" href="./resources.html"><span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span><span>Zasoby i dokumentacja</span></a>
+  </nav>
+  <div class="sidebar-foot">
+    Projekt edukacyjny · niekomercyjny<br>
+    <a href="./resources.html">Zasoby →</a>
+  </div>
+</aside>
+<div class="sidebar-overlay" data-menu-close aria-hidden="true"></div>
+  <div class="main" id="main">
+    <div class="main-inner">
+      <div class="content">
+        <div class="page-head">
+          <div class="page-eyebrow">Start</div>
+          <h1 class="page-title">Monitoring wizyjny od strony deweloperskiej</h1>
+          <p class="page-lead">Protokoły, oprogramowanie open-source, integracje i architektura systemów video — dla programistów, integratorów i hobbystów.</p>
+          <div class="page-meta"><span><span class="dot"></span> projekt edukacyjny</span><span><span>niekomercyjny</span></span><span><span>aktualizacja 11.2026</span></span></div>
         </div>
-    </div>
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="badge green live"><span class="dot"></span> Projekt edukacyjny</span>
+    <span class="badge neutral">niekomercyjny</span>
+  </div>
+  <h1 class="hero-title">Monitoring wizyjny<br><span class="grad">od strony deweloperskiej</span></h1>
+  <p class="hero-sub">Protokoły, oprogramowanie open-source, integracje i architektura systemów video — przegląd dla programistów, integratorów, administratorów i hobbystów. Bez komerchy, bez SaaS-pitchu: suche fakty i działający kod.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="./protocols.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg> Przegląd protokołów</a>
+    <a class="btn" href="./oss.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg> Open-source NVR/VMS</a>
+    <a class="btn" href="./architecture.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6"/></svg> Architektura DIY</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Protokoły</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Systemy OSS</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Sekcji</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Zależności</div></div>
+  </div>
 </section>
 
-<section>
-    <div class="container">
-        <h2>Open-source do samodzielnego hostowania</h2>
-        <p>Zamiast płatnych rozwiązań SaaS można wykorzystać własny serwer i oprogramowanie o otwartym kodzie źródłowym:</p>
-        <div class="grid">
-            <div class="card">
-                <h3>ZoneMinder</h3>
-                <p>Pełnoprawny system VMS (Video Management System) pod Linuxa. Wspiera setki kamer, detekcję ruchu, powiadomienia.</p>
-            </div>
-            <div class="card">
-                <h3>Shinobi</h3>
-                <p>Lekka alternatywa napisana w Node.js. Prosta instalacja, wspiera HLS, nagrywanie ciągłe i na zdarzenie.</p>
-            </div>
-            <div class="card">
-                <h3>Frigate</h3>
-                <p>Nowoczesny NVR z wbudowaną detekcją obiektów przez AI (TensorFlow Lite). Integruje się z Home Assistant.</p>
-            </div>
-            <div class="card">
-                <h3>Motion / MotionEye</h3>
-                <p>Proste narzędzie do detekcji ruchu z interfejsem webowym. Idealne na Raspberry Pi + kamera modułowa.</p>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="terminal">
+  <div class="terminal-bar">
+    <span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span>
+    <span class="terminal-title">~/monitoring — quickstart</span>
+  </div>
+  <pre><span class="prompt">$</span> ffprobe -rtsp_transport tcp -i rtsp://user:pass@192.168.1.10:554/stream1
+<span class="out">  Stream #0:0: Video: h264 ... 1920x1080 ... 25 fps</span>
+<span class="out">  Stream #0:1: Audio: aac ... 16 kHz</span>
+<span class="prompt">$</span> ffmpeg -y -rtsp_transport tcp -i rtsp://user:pass@192.168.1.10:554/stream1        -frames:v 1 -q:v 2 snapshot.jpg
+<span class="ok">  ✓ frame=1 fps=1.0 ... snapshot.jpg (84 KiB)</span>
+<span class="prompt">$</span> docker run -d --rm --device /dev/apex        -e FRIGATE_RTSP_PASSWORD=pass frigate/frigate</pre>
+</div>
 
-<section>
-    <div class="container">
-        <h2>Przykład: przechwytywanie klatki z kamery IP w Pythonie</h2>
-        <p>Poniżej minimalny przykład użycia OpenCV do pobrania pojedynczej klatki ze strumienia RTSP:</p>
-        <div class="code-block">
-<span class="keyword">import</span> cv2<br><br>
-cap = cv2.VideoCapture(<span class="string">"rtsp://uzytkownik:<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cba3aab8a7a48bfaf2f9e5fafdf3e5fae5fafbfb">[email&#160;protected]</a>:554/stream1"</span>)<br>
-ret, frame = cap.read()<br><br>
-<span class="keyword">if</span> ret:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;cv2.imwrite(<span class="string">"klatka.jpg"</span>, frame)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># dalej: analiza przez YOLO, wysłanie do S3, powiadomienie itp.</span><br>
-<br>
-cap.release()
-        </div>
-        <div class="note">
-            W praktyce warto uruchomić to w kontenerze Docker, dodać obsługę wyjątków (timeout, reconnect) oraz logowanie zdarzeń.
-        </div>
-    </div>
-</section>
+<h2 id="dla-kogo">Dla kogo to jest? <a class="anchor" href="#dla-kogo">#</a></h2>
+<p>Ten zbiór materiałów powstaje dla osób, które wolą zrozumieć system monitoringu od środka niż kupić zamknięte pudełko. Jeśli planujesz postawić rejestrator NVR na Raspberry Pi, chcesz zrozumieć jak działa <code>ONVIF</code>, albo budujesz pipeline analizy obrazu w Pythonie — znajdziesz tu punkt zaczepienia i linki do dokumentacji pierwszej ręki.</p>
+<p>Materiał celowo omija warstwę marketingową. Nie znajdziesz tu porównań „który SaaS jest najlepszy", tylko konkret: jakie protokoły mówi kamera, jak się do niej dostać z kodu, jak transkodować strumień, gdzie hostować i z czym integrować. Przykłady są minimalne, ale działające — dają się uruchomić po lekkiej adaptacji do Twojej sieci i modelu kamery.</p>
 
-<section>
-    <div class="container">
-        <h2>Architektura typowego systemu DIY</h2>
-        <div class="code-block" style="background:#f6f8fa; color:#24292f; border-color:#d0d7de;">
-Kamery IP (ONVIF/RTSP)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Lokalny serwer (Raspberry Pi / mini PC / VM)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Oprogramowanie NVR (Frigate / ZoneMinder / Shinobi)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Detekcja zdarzeń (AI / motion / rule-based)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Powiadomienia (MQTT / Webhook / Pushover / e-mail)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-Archiwum (lokalny dysk / NAS / S3-compatible)
-        </div>
-        <p class="lead">
-            Taki układ pozwala na pełną kontrolę nad danymi i możliwość rozbudowy o kolejne komponenty, np. dashboard w Grafana czy integrację z Node-RED.
-        </p>
-    </div>
-</section>
+<h2 id="co-znajdziesz">Co znajdziesz w serwisie <a class="anchor" href="#co-znajdziesz">#</a></h2>
+<div class="feature-grid">
+  <a class="feature" href="./protocols.html"><span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><h3>Protokoły i standardy</h3><p>ONVIF, RTSP/RTP, RTMP/HLS/WebRTC, SIP — anatomia, URL-e, latencja, kiedy którego użyć.</p></a>
+  <a class="feature" href="./oss.html"><span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><h3>Open-source NVR/VMS</h3><p>ZoneMinder, Shinobi, Frigate, Motion/MotionEye — hostowane u siebie, bez licencji.</p></a>
+  <a class="feature" href="./architecture.html"><span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h6a3 3 0 0 1 3 3v6"/></svg></span><h3>Architektura DIY</h3><p>Pipeline od kamery przez NVR, detekcję, powiadomienia, po archiwum. Klikalny diagram.</p></a>
+  <a class="feature" href="./libraries.html"><span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><h3>Biblioteki i narzędzia</h3><p>Python, Node.js, Go, DevOps. Bloki kodu z kopiowaniem + builder komend ffmpeg.</p></a>
+  <a class="feature" href="./integration.html"><span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v3a6 6 0 0 1-12 0V8Z"/></svg></span><h3>Integracje i ekosystem</h3><p>Home Assistant, Node-RED, MQTT, akceleratory AI (Coral, Jetson).</p></a>
+  <a class="feature" href="./resources.html"><span class="feature-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></span><h3>Zasoby i dokumentacja</h3><p>Oficjalne specs i repozytoria — bezpośrednie linki do źródeł pierwszej ręki.</p></a>
+</div>
 
-<section>
-    <div class="container">
-        <h2>Biblioteki i narzędzia dla programistów</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Python</h3>
-                <ul>
-                    <li><code>opencv-python</code> — przetwarzanie obrazu</li>
-                    <li><code>onvif-zeep</code> — komunikacja ONVIF</li>
-                    <li><code>imutils</code> — ułatwienia dla OpenCV</li>
-                    <li><code>flask / fastapi</code> — własny serwer WWW</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>JavaScript / Node.js</h3>
-                <ul>
-                    <li><code>node-rtsp-stream</code> — strumień do WebSocket</li>
-                    <li><code>ffmpeg-static</code> — transkodowanie wideo</li>
-                    <li><code>mqtt</code> — komunikacja z IoT</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>Go</h3>
-                <ul>
-                    <li><code>gortsplib</code> — klient/serwer RTSP</li>
-                    <li>świetny wybór na lekki serwer proxy strumieni</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>Infra / DevOps</h3>
-                <ul>
-                    <li><code>ffmpeg</code> — transkodowanie, zrzuty</li>
-                    <li><code>docker + compose</code> — izolacja usług</li>
-                    <li><code>nginx + rtmp-module</code> — serwer strumieni</li>
-                    <li><code>prometheus + grafana</code> — monitoring metryk</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+<h2 id="quickstart">Quickstart w 60 sekund <a class="anchor" href="#quickstart">#</a></h2>
+<p>Najkrótsza ścieżka od zera do pierwszej klatki z kamery IP w Twojej sieci:</p>
+<ol>
+  <li>Znajdź kamerę: <code>onvif-cli discover</code> lub skan <code>nmap -p 554,3702</code> w podsieci.</li>
+  <li>Wytnij jeden strumień: odczytaj URL RTSP z panelu kamery (często <code>/stream1</code>, <code>/h264/channel1</code>).</li>
+  <li>Potwierdź strumień: <code>ffprobe -rtsp_transport tcp -i rtsp://...</code> — zobaczysz kodek i rozdzielczość.</li>
+  <li>Pobierz klatkę lub nagrywaj: <code>ffmpeg -frames:v 1 snapshot.jpg</code> albo postaw Frigate w Dockerze.</li>
+</ol>
+<div class="callout callout-note"><span class="callout-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></span><div class="callout-body"><div class="callout-title">Zanim ruszysz dalej</div><p>Cała witryna jest statyczna — motyw, wyszukiwarka i interaktywne widgety działają w przeglądarce w czystym JS, bez backendu. Hostinguje się ją na GitHub Pages wgraniem folderu do repo. Szczegóły w <a href="./resources.html">Zasobach</a>.</p></div></div>
 
-<section>
-    <div class="container">
-        <h2>Integracje i ekosystem</h2>
-        <p class="lead">
-            System monitoringu wizyjnego rzadko działa w izolacji. Deweloperzy często łączą go z innymi platformami: <strong>Home Assistant</strong> (automatyka domowa), <strong>OpenHAB</strong>, <strong>Node-RED</strong> (wizualny edytor flow), czy własnymi mikroserwisami opartymi na MQTT i REST API.
-        </p>
-        <p class="lead">
-            Detekcja oparta na AI może być realizowana lokalnie (Coral TPU, Intel NCS, NVIDIA Jetson) lub poprzez API (np. rozpoznawanie twarzy, OCR tablic rejestracyjnych). Wybór zależy od wymagań co do opóźnień, prywatności i budżetu.
-        </p>
-    </div>
-</section>
+      </div>
+<aside class="toc" data-toc aria-label="Spis treści">
+  <div class="toc-label">Na tej stronie</div>
+  <ul>
+      <li><a href="#dla-kogo">Dla kogo</a></li>
+      <li><a href="#co-znajdziesz">Co znajdziesz</a></li>
+      <li><a href="#quickstart">Quickstart</a></li>
+  </ul>
+</aside>
 
-<section>
-    <div class="container">
-        <h2>Zasoby i dokumentacja</h2>
-        <p>Warto zacząć od oficjalnych źródeł:</p>
-        <ul style="margin-left: 1.5rem; color: #444;">
-            <li><a href="https://www.onvif.org/profiles/" target="_blank">ONVIF Profiles Specifications</a> — oficjalna dokumentacja standardu</li>
-            <li><a href="https://github.com/ZoneMinder/zoneminder" target="_blank">ZoneMinder na GitHub</a> — kod źródłowy i wiki</li>
-            <li><a href="https://github.com/blakeblackshear/frigate" target="_blank">Frigate na GitHub</a> — dokumentacja i konfiguracja</li>
-            <li><a href="https://trac.ffmpeg.org/wiki/StreamingGuide" target="_blank">FFmpeg Streaming Guide</a> — praktyczne przykłady transkodowania</li>
-            <li><a href="https://docs.opencv.org/" target="_blank">OpenCV Documentation</a> — przetwarzanie obrazu i video</li>
-        </ul>
     </div>
-</section>
-
-<footer>
-    <div class="container">
-        <p>czwarta.eu — niekomercyjny zbiór informacji o monitoringu wizyjnym od strony deweloperskiej</p>
-        <p style="margin-top: 0.5rem;">Treść ma charakter edukacyjny. Nie stanowi oferty w rozumieniu przepisów kodeksu cywilnego. </p>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">czwarta.eu</div>
+      <p class="footer-note">Niekomercyjny zbiór informacji o monitoringu wizyjnym od strony deweloperskiej. Treść ma charakter edukacyjny i nie stanowi oferty w rozumieniu przepisów kodeksu cywilnego.</p>
     </div>
+    <div class="footer-links">
+      <a href="./index.html">Strona główna</a>
+      <a href="./protocols.html">Protokoły</a>
+      <a href="./oss.html">Open-source NVR</a>
+      <a href="./architecture.html">Architektura</a>
+      <a href="./libraries.html">Biblioteki</a>
+      <a href="./integration.html">Integracje</a>
+      <a href="./resources.html">Zasoby</a>
+    </div>
+    <div class="footer-copy">Utworzono 11.11.2026 · hosting: GitHub Pages · <span data-year>2026</span></div>
+  </div>
 </footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+<script src="./assets/app.js"></script>
+</body>
 </html>
