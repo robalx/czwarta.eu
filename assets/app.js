@@ -63,6 +63,48 @@
     });
   })();
 
+  /* ------------------------------------------------------- shared footer */
+  (function loadFooter() {
+    var placeholder = document.querySelector("[data-footer-placeholder]");
+    if (!placeholder) return;
+
+    var script = document.currentScript;
+    if (!script || !script.src) {
+      var missingScriptError = new Error("Could not resolve app.js URL for footer.html");
+      console.error("Nie udało się załadować wspólnej stopki.", missingScriptError);
+      placeholder.setAttribute("role", "alert");
+      placeholder.setAttribute("aria-busy", "false");
+      placeholder.textContent = "Nie udało się załadować stopki.";
+      return;
+    }
+
+    var footerUrl = new URL("../footer.html", script.src);
+    fetch(footerUrl.href)
+      .then(function (response) {
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.text();
+      })
+      .then(function (markup) {
+        var template = document.createElement("template");
+        template.innerHTML = markup;
+        var footer = template.content.querySelector("footer.footer");
+        if (!footer) throw new Error("footer.html does not contain footer.footer");
+        footer.querySelectorAll('a[href^="./"]').forEach(function (link) {
+          link.href = new URL(link.getAttribute("href"), footerUrl).href;
+        });
+        placeholder.replaceWith(footer);
+        document.querySelectorAll("[data-year]").forEach(function (el) {
+          el.textContent = new Date().getFullYear();
+        });
+      })
+      .catch(function (error) {
+        console.error("Nie udało się załadować wspólnej stopki.", error);
+        placeholder.setAttribute("role", "alert");
+        placeholder.setAttribute("aria-busy", "false");
+        placeholder.textContent = "Nie udało się załadować stopki.";
+      });
+  })();
+
   /* ----------------------------------------------------------- copy buttons */
   function addCopy(target, getText) {
     var btn = document.createElement("button");
