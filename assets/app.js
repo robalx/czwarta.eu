@@ -15,26 +15,27 @@
     if (saved === "light" || saved === "dark") return saved;
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
-  function setTheme(t) {
+  function setTheme(t, persist) {
     root.setAttribute("data-theme", t);
-    localStorage.setItem(THEME_KEY, t);
+    if (persist) localStorage.setItem(THEME_KEY, t);
     document.querySelectorAll("[data-theme-toggle]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(t === "dark"));
       b.setAttribute("aria-label", t === "dark" ? "Przełącz na motyw jasny" : "Przełącz na motyw ciemny");
     });
   }
   // apply early to avoid flash
-  setTheme(appliedTheme());
+  setTheme(appliedTheme(), false);
   // react to system changes only if user hasn't chosen
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
-    if (!localStorage.getItem(THEME_KEY)) setTheme(e.matches ? "dark" : "light");
+    var saved = localStorage.getItem(THEME_KEY);
+    if (saved !== "light" && saved !== "dark") setTheme(e.matches ? "dark" : "light", false);
   });
 
   /* ----------------------------------------------------- delegated actions */
   document.addEventListener("click", function (e) {
     var themeBtn = e.target.closest("[data-theme-toggle]");
     if (themeBtn) {
-      setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+      setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark", true);
       return;
     }
     var open = e.target.closest("[data-menu-open]");
@@ -322,7 +323,7 @@
       var inp = searchBox.querySelector(".search-input");
       inp.focus(); inp.select();
     } else if (e.key.toLowerCase() === "t") {
-      setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+      setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark", true);
     } else if (e.key === "Escape" && body.classList.contains("sidebar-open")) {
       body.classList.remove("sidebar-open");
     }

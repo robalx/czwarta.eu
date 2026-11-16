@@ -81,7 +81,16 @@
     <li><a href="https://nodered.org/" target="_blank" rel="noopener">Node-RED <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><br><span class="muted" style="font-size:.85rem;">Wizualny edytor flow do łączenia zdarzeń i logiki.</span></li>
 </ul>
 
-
+<h2 id="deploy">Deploy na GitHub Pages <a class="anchor" href="#deploy">#</a></h2>
+<p>Ta witryna jest w pełni statyczna - żadnego backendu ani build-stepu. Hosting na GitHub Pages sprowadza się do wgrania plików i kliknięcia „Save".</p>
+<ol>
+  <li><strong>Wrzuć pliki</strong> do repozytorium (gałąź <code>main</code>, katalog root lub <code>/docs</code>).</li>
+  <li><strong>Settings → Pages</strong> → Source: <em>Deploy from a branch</em> → wybierz gałąź i katalog.</li>
+  <li>Plik <code>.nojekyll</code> (zawarty w paczce) wyłącza filtrowanie Jekyll - katalog <code>assets/</code> serwuje się poprawnie.</li>
+  <li><strong>Custom domain</strong>: w polu Custom domain wpisz <code>czwarta.eu</code>. Dla apex dodaj rekordy A wskazujące IP GitHub Pages (<code>185.199.108-111.153</code>); dla subdomeny - CNAME na <code>USER.github.io</code>. Włącz „Enforce HTTPS".</li>
+  <li><strong>Podgląd lokalny</strong>: <code>python3 -m http.server 8000</code> w folderze witryny, potem otwórz <code>http://localhost:8000</code>.</li>
+</ol>
+<div class="callout callout-info"><span class="callout-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span><div class="callout-body"><div class="callout-title">Edycja treści</div><p>Treść generuje skrypt <code>scripts/gen_pages.py</code> - zmień w nim odpowiednią stronę i uruchom ponownie, albo edytuj pliki <code>.html</code> bezpośrednio. Design i interakcje żyją w <code>assets/style.css</code> i <code>assets/app.js</code>.</p></div></div>
 
       </div>
 <aside class="toc" data-toc aria-label="Spis treści">
